@@ -1,16 +1,14 @@
 <template>
-  <div>
-    <HelloWorld msg="Hello Vue 3 + Vite" />
-  </div>
+  <Home />
 </template>
 
 <script>
 import { defineComponent } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+import Home from './views/Home.vue'
 
 export default defineComponent({
   components: {
-    HelloWorld
+    Home
   }
 })
 
