@@ -27,7 +27,6 @@ export default {
 
   computed: {
     activeClasses () {
-      console.log(this.active)
       if (!this.active) return 'idle-state'
       return ''
     },

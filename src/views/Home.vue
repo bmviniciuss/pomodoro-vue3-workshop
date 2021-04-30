@@ -25,7 +25,7 @@
                 class="mb-4"
                 color="red"
                 :active="isRunning"
-                @click.self="handleTimerButtonClick"
+                @click="handleTimerButtonClick"
               >
                 {{ isRunning ? "Stop" : "Start" }}
               </Button>
