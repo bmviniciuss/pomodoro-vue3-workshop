@@ -12,25 +12,36 @@ export default defineComponent({
   props: {
     color: {
       type: String,
-      default: 'blue'
+      default: 'red'
+    },
+    active: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['click'],
   setup (props, ctx) {
+    const buttonBaseClasses = 'py-2 px-4 w-full rounded-lg font-bold focus:outline-none transition-all ease-out bg-white'
+
+    const activeClasses = computed(() => {
+      if (!props.active) return 'idle-state'
+      return ''
+    })
+
+    const colorClasses = computed(() => {
+      if (props.color === 'red') {
+        return 'text-red-800'
+      }
+      return 'text-gray-900'
+    })
+
     const buttonClass = computed(() => {
       const parentAttrs = ctx?.attrs?.class || ''
       return [
-        'py-2',
-        'px-4',
-        'w-full',
-        'transition',
-        'border',
-        `bg-${props.color}-700`,
-        `border-${props.color}-600`,
-        `hover:bg-${props.color}-600`,
-        'text-white',
-        'rounded-lg font-bold focus:outline-none',
-        parentAttrs
+        parentAttrs,
+        buttonBaseClasses,
+        activeClasses.value,
+        colorClasses.value
       ]
     })
 
@@ -42,3 +53,10 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+.idle-state {
+  box-shadow: rgb(235 235 235) 0px 5px 0px;
+  transform: translateY(-5px);
+}
+</style>

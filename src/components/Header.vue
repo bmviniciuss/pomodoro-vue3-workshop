@@ -1,14 +1,8 @@
 <template>
-  <header
-    class="sticky top-0 z-30 mx-auto bg-opacity-50 h-[72px] backdrop-filter backdrop-blur max-w-8xl"
-  >
-    <div
-      class="flex items-center justify-between px-4 py-5 border-b lg:px-8 sm:px-6 border-gray-400"
-    >
+  <header class="sticky top-0 z-30 mx-auto h-[72px] max-w-8xl text-white">
+    <div class="flex items-center justify-between py-5">
       <a class="font-bold block text-xl">Pomodoro Vue</a>
-      <a
-        class="text-gray-900"
-        href="https://github.com/bmviniciuss/pomodoro-vue3-workshop"
+      <a href="https://github.com/bmviniciuss/pomodoro-vue3-workshop"
         ><span class="sr-only">GitHub repository</span
         ><svg viewBox="0 0 16 16" fill="currentColor" class="w-5 h-5">
           <path
