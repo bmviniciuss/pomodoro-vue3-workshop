@@ -25,7 +25,7 @@
                 class="mb-4"
                 color="red"
                 :active="isRunning"
-                @click="handleTimerButtonClick"
+                @click.self="handleTimerButtonClick"
               >
                 {{ isRunning ? "Stop" : "Start" }}
               </Button>
@@ -38,42 +38,80 @@
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue'
 import Button from '../components/Button.vue'
 import Header from '../components/Header.vue'
 
-import useTimer from '../hooks/useTimer'
-import { formatTime } from '../utils'
+import { padTime, formatTime } from '../utils'
 
-export default defineComponent({
+const INITIAL_TIME = 3
+
+export default {
   name: 'HomeView',
   components: {
     Button,
     Header
   },
-  setup () {
-    const INITIAL_VALUE = 25 * 60
-    const timer = useTimer(INITIAL_VALUE)
+  data () {
+    return {
+      isRunning: false,
+      initialTime: INITIAL_TIME,
+      currentTime: INITIAL_TIME,
+      timer: null
+    }
+  },
 
-    const formattedTime = computed(() =>
-      formatTime(timer.minutes.value, timer.seconds.value)
-    )
+  computed: {
+    minutes () {
+      return padTime(Math.floor(this.currentTime / 60))
+    },
+    seconds () {
+      return padTime(this.currentTime - this.minutes * 60)
+    },
 
-    const handleTimerButtonClick = () => {
-      if (timer.isRunning.value) {
-        timer.stop()
+    formattedTime () {
+      return formatTime(this.minutes, this.seconds)
+    }
+  },
+
+  methods: {
+    startTimer () {
+      this.isRunning = true
+      this.timer = setInterval(() => this.clockTime(), 1000)
+    },
+
+    stopTimer () {
+      this.isRunning = false
+      if (this.timer) {
+        clearInterval(this.timer)
+        this.timer = null
+      }
+    },
+
+    resetTimer () {
+      this.stopTimer()
+      this.currentTime = this.initialTime
+    },
+
+    clockTime () {
+      if (this.isRunning) {
+        if (this.currentTime >= 1) {
+          this.currentTime = this.currentTime - 1
+        } else {
+          console.log('DONE')
+          this.resetTimer()
+        }
+      }
+    },
+
+    handleTimerButtonClick () {
+      if (this.isRunning) {
+        this.stopTimer()
       } else {
-        timer.start()
+        this.startTimer()
       }
     }
-
-    return {
-      ...timer,
-      formattedTime,
-      handleTimerButtonClick
-    }
   }
-})
+}
 </script>
 
 <style scoped>

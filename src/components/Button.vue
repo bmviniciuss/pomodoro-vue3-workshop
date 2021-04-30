@@ -1,13 +1,12 @@
 <template>
-  <button :class="buttonClass" @click="handleClick">
+  <button :class="buttonClass">
     <slot></slot>
   </button>
 </template>
 
 <script>
-import { computed, defineComponent } from '@vue/runtime-core'
 
-export default defineComponent({
+export default {
   name: 'v-button',
   props: {
     color: {
@@ -19,39 +18,38 @@ export default defineComponent({
       default: false
     }
   },
-  emits: ['click'],
-  setup (props, ctx) {
-    const buttonBaseClasses = 'py-2 px-4 w-full rounded-lg font-bold focus:outline-none transition-all ease-out bg-white'
 
-    const activeClasses = computed(() => {
-      if (!props.active) return 'idle-state'
+  data () {
+    return {
+      buttonBaseClasses: 'py-2 px-4 w-full rounded-lg font-bold focus:outline-none transition-all ease-out bg-white'
+    }
+  },
+
+  computed: {
+    activeClasses () {
+      console.log(this.active)
+      if (!this.active) return 'idle-state'
       return ''
-    })
+    },
 
-    const colorClasses = computed(() => {
-      if (props.color === 'red') {
+    colorClasses () {
+      if (this.color === 'red') {
         return 'text-red-800'
       }
       return 'text-gray-900'
-    })
+    },
 
-    const buttonClass = computed(() => {
-      const parentAttrs = ctx?.attrs?.class || ''
+    buttonClass () {
+      const parentAttrs = this.$attrs?.class || ''
       return [
         parentAttrs,
-        buttonBaseClasses,
-        activeClasses.value,
-        colorClasses.value
+        this.buttonBaseClasses,
+        this.activeClasses,
+        this.colorClasses
       ]
-    })
-
-    const handleClick = (evt) => {
-      ctx.emit('click', evt)
     }
-
-    return { buttonClass, handleClick }
   }
-})
+}
 </script>
 
 <style scoped>
